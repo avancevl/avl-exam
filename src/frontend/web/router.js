@@ -1,6 +1,7 @@
 /* eslint-disable capitalized-comments */
 const {Router} = require('capybara-router');
 const history = require('history');
+const api = require('../core/apis/web-api');
 
 const _title = 'Web';
 
@@ -19,7 +20,16 @@ module.exports = new Router({
       onEnter: () => {
         document.title = _title;
       },
-      resolve: {},
+      resolve: {
+        restaurants: () => {
+          const time = new Date('1970-01-04T00:00:00.000Z');
+          const now = new Date();
+          time.setMinutes(now.getMinutes());
+          time.setHours(now.getHours());
+          time.setDate(time.getDate() + now.getDay());
+          return api.restaurant.getRestaurants(time).then(response => response.data)
+        }
+      },
       loadComponent: () => import(
         /* webpackChunkName: "web-home" */
         './pages/home'
