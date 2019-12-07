@@ -3,6 +3,7 @@ const utils = require('../common/utils');
 const errors = require('../models/errors');
 const accountHandler = require('../handlers/account-handler');
 const baseHandler = require('../handlers/base-handler');
+const restaurantHandler = require('../handlers/restaurant-handler');
 
 exports.web = new express.Router();
 exports.api = new express.Router();
@@ -105,3 +106,4 @@ apiRouter.post(
   utils.generateRateLimit('/account/_change-password/', 5 * 60 * 1000, 5),
   accountHandler.updatePasswordWithCode
 );
+apiRouter.get('/restaurants', restaurantHandler.getRestaurants);
