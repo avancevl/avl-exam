@@ -6,15 +6,19 @@ exports.getRestaurants = (req, res) => {
    */
   const time = new Date(req.query.time);
 
-  return RestaurantModel.where({
-    dutyTimes: {
-      $elemMatch: {
-        start: {$lte: time},
-        end: {$gt: time}
+  const query = RestaurantModel.where();
+  if (req.query.time) {
+    query.where({
+      dutyTimes: {
+        $elemMatch: {
+          start: {$lte: time},
+          end: {$gt: time}
+        }
       }
-    }
-  })
-    .then(restaurants => {
-      res.json(restaurants.map(x => x.dump()));
     });
+  }
+
+  return query.then(restaurants => {
+    res.json(restaurants.map(x => x.dump()));
+  });
 };
