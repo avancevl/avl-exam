@@ -88,6 +88,10 @@ if (op.argv.createCollections) {
             }
           }
 
+          if (result.start > result.end) {
+            result.end.setHours(result.end.getHours() + 24);
+          }
+
           result.start.setHours(result.start.getHours() - 8);
           result.end.setHours(result.end.getHours() - 8);
           return result;
